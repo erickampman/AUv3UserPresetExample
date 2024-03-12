@@ -14,4 +14,16 @@ In particular it doesn't:
 - handle polyphony
 - audio envelopes
 
+The UI is pretty elementary. 
+- Set the parameter's value with the slider.
+- Click on the "Presets" button
+- Set the preset's name.
+- Click Save
+- Dismiss the sheet.
+- Change the parameter's value.
+- Click on the "Presets" button
+- Make sure the preset's name is still set (or make it so)
+- Click on Load.
+- Verify that the value is now set properly.
+
 
