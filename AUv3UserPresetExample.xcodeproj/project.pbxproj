@@ -33,6 +33,7 @@
 		E457EF702BA09260003F3397 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E457EF6E2BA09260003F3397 /* MainInterface.storyboard */; };
 		E457EF722BA09260003F3397 /* ObservableAUParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E457EF712BA09260003F3397 /* ObservableAUParameter.swift */; };
 		E457EF742BA09260003F3397 /* AudioUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E457EF732BA09260003F3397 /* AudioUnitViewController.swift */; };
+		E457EF802BA092C9003F3397 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = E457EF7F2BA092C9003F3397 /* Readme.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		E457EF712BA09260003F3397 /* ObservableAUParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableAUParameter.swift; sourceTree = "<group>"; };
 		E457EF732BA09260003F3397 /* AudioUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitViewController.swift; sourceTree = "<group>"; };
 		E457EF752BA09260003F3397 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E457EF7F2BA092C9003F3397 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 		E457EF172BA0925E003F3397 = {
 			isa = PBXGroup;
 			children = (
+				E457EF7F2BA092C9003F3397 /* Readme.md */,
 				E457EF222BA0925E003F3397 /* AUv3UserPresetExample */,
 				E457EF4B2BA09260003F3397 /* AUv3UserPresetExampleExtension */,
 				E457EF212BA0925E003F3397 /* Products */,
@@ -395,6 +398,7 @@
 			files = (
 				E457EF3E2BA0925F003F3397 /* Assets.xcassets in Resources */,
 				E457EF412BA0925F003F3397 /* Preview Assets.xcassets in Resources */,
+				E457EF802BA092C9003F3397 /* Readme.md in Resources */,
 				E457EF2B2BA0925E003F3397 /* Synth.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
