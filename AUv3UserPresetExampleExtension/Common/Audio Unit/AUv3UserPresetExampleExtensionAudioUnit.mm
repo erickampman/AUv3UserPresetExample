@@ -67,21 +67,41 @@
 	
 	AUParameter *param = [self.parameterTree parameterWithAddress:AUv3UserPresetExampleExtensionParameterAddress::gain];
 	
+	/* set the values of ALL your params. This is just an example. */
 	NSDictionary<NSString*, id> *params = @{
 		@"gain": [NSNumber numberWithFloat:param.value],
 	};
-	state[@"data"] = [NSKeyedArchiver archivedDataWithRootObject:params];
+	
+	NSError *error = nil;
+	state[@"data"] = [NSKeyedArchiver archivedDataWithRootObject:params
+										   requiringSecureCoding:false
+														   error:&error];
+	
+	if (nil != error) {
+		NSLog(@"achive error %@", error);
+		return nil;
+	}
+	
 	return state;
 }
 
 -(void)setFullState:(NSDictionary<NSString *,id> *)fullState {
-	NSData *data = (NSData *)fullState[@"data"];
-	NSDictionary *params = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-	
+	NSError *error = nil;
+	NSDictionary *dict = [NSKeyedUnarchiver unarchivedObjectOfClass:NSDictionary.class
+															 fromData:(NSData *)fullState[@"data"]
+																error:&error];
 	// read your params
 	AUParameter *param = [self.parameterTree parameterWithAddress:AUv3UserPresetExampleExtensionParameterAddress::gain];
+	
+	if (nil != error) {
+		NSLog(@"achive error %@", error);
+		return;
+	}
 
-	param.value = [(NSNumber *)params[@"gain"] floatValue];
+	/*
+		Of course, you will have more than one param. You need to set each one.
+	 */
+	param.value = [(NSNumber *)dict[@"gain"] floatValue];
 }
 
 - (AUAudioUnitPreset *)currentPreset {
