@@ -10,8 +10,8 @@ Apple's [developer video](https://developer.apple.com/videos/play/wwdc2019/509/)
 
 The AudioUnit Extension App template is more bare-bones than previous audio unit demo code.
 This project is not intended to address anything other than how to implement user presets.
-In particular it doesn't:
-- handle polyphony
+In particular it doesn't do:
+- polyphony
 - audio envelopes
 
 The UI is pretty elementary. 
