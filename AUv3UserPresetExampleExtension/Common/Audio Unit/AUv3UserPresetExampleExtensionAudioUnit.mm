@@ -13,6 +13,8 @@
 #import "AUv3UserPresetExampleExtensionAUProcessHelper.hpp"
 #import "AUv3UserPresetExampleExtensionDSPKernel.hpp"
 
+#import "AUv3UserPresetExampleExtensionParameterAddresses.h"
+
 
 // Define parameter addresses.
 
@@ -27,7 +29,8 @@
 @implementation AUv3UserPresetExampleExtensionAudioUnit {
     // C++ members need to be ivars; they would be copied on access if they were properties.
     AUv3UserPresetExampleExtensionDSPKernel _kernel;
-    std::unique_ptr<AUProcessHelper> _processHelper;
+    std::unique_ptr<AUProcessHelper> 		_processHelper;
+	AUAudioUnitPreset            			*_currentPreset;
 }
 
 @synthesize parameterTree = _parameterTree;
@@ -41,6 +44,80 @@
     
     return self;
 }
+
+#pragma mark - Presets
+
+/*
+	Apple's template project currently implements the audiounit in Objective-C++.
+	There are other demo projects that use Swift.
+ 
+	Because the audio processing has to be done in C++ (or C), Swift carries a
+	somewhat higher burden to integrate with the processing code, but is definitely
+	doable. It's on my list to attempt to integrate directly with C++, since Swift
+	now supports that, but it looks like I need to create a framework for the C++
+	code and I haven't done that yet.
+ */
+
+- (bool)supportsUserPresets {
+	return true;
+}
+
+- (NSDictionary<NSString *,id> *)fullState {
+	NSMutableDictionary *state = [[NSMutableDictionary alloc] initWithDictionary:super.fullState];
+	
+	AUParameter *param = [self.parameterTree parameterWithAddress:AUv3UserPresetExampleExtensionParameterAddress::gain];
+	
+	NSDictionary<NSString*, id> *params = @{
+		@"gain": [NSNumber numberWithFloat:param.value],
+	};
+	state[@"data"] = [NSKeyedArchiver archivedDataWithRootObject:params];
+	return state;
+}
+
+-(void)setFullState:(NSDictionary<NSString *,id> *)fullState {
+	NSData *data = (NSData *)fullState[@"data"];
+	NSDictionary *params = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	
+	// read your params
+	AUParameter *param = [self.parameterTree parameterWithAddress:AUv3UserPresetExampleExtensionParameterAddress::gain];
+
+	param.value = [(NSNumber *)params[@"gain"] floatValue];
+}
+
+- (AUAudioUnitPreset *)currentPreset {
+	AUAudioUnitPreset            *_currentPreset;
+
+	if (!_currentPreset || _currentPreset.number >= 0) {
+		/*
+			Factory presets have numbers > 0. In this demo project there aren't any.
+			I don't know if returning nil here could be problematic. If so at least
+			one factory default preset should be created and returned.
+		 */
+		return nil;
+	}
+	
+	NSLog(@"User Preset: %ld, %@\n", (long)self.currentPreset.number, self.currentPreset.name);
+	return _currentPreset;
+}
+
+- (void)setCurrentPreset:(AUAudioUnitPreset *)preset {
+	if (nil == preset) {
+		NSLog(@"nil passed to setCurrentPreset!");
+		return;
+	}
+	if (preset.number >= 0) { return; }
+	
+	NSError *error = nil;
+	NSDictionary<NSString *,id> *dict = [self presetStateFor:preset
+													   error:&error];
+	self.fullStateForDocument = dict;
+	if (nil == error) {
+		_currentPreset = preset;
+	} else {
+		NSLog(@"preset load error: %@", error);
+	}
+}
+
 
 #pragma mark - AUAudioUnit Setup
 

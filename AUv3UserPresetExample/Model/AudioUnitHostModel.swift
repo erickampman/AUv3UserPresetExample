@@ -85,4 +85,8 @@ class AudioUnitHostModel: ObservableObject {
     func stopPlaying() {
         playEngine.stopPlaying()
     }
+	
+	var auAudioUnit : AUAudioUnit? {
+		return playEngine.auAudioUnit
+	}
 }

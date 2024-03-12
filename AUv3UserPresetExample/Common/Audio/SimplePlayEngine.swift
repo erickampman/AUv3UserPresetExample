@@ -305,4 +305,8 @@ public class SimplePlayEngine {
         }
         rewiringComplete()
     }
+	
+	var auAudioUnit: AUAudioUnit? {
+		return avAudioUnit?.auAudioUnit ?? nil
+	}
 }
